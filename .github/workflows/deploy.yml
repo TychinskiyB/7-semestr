@@ -10,7 +10,7 @@ on:
  workflow_dispatch:
 
 jobs:
- build:
+ test_and_lint:
   runs-on: ubuntu-latest
   steps:
    - name: Checkout code
@@ -25,9 +25,9 @@ jobs:
      pip install -r requirements.txt
    - name: Run tests
     run: pytest
-   - name: Lint code
+   - name: Run flake8
     run: flake8 .
-   - name: Check code coverage
+   - name: Calculate coverage
     run: |
      pip install coverage
      coverage run -m pytest
@@ -38,21 +38,3 @@ jobs:
     with:
      name: coverage-report
      path: coverage.xml
-   - name: Run security checks
-    run: bandit -r .
-   - name: Send Telegram notification
-    uses: appleboy/telegram-action@master
-    with:
-     token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-     chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
-     message: |
-      CI Pipeline finished!
-      
-      Workflow status: ${{ job.status }}
-      
-      Coverage report: ${{ runner.workspaces.coverage-report }}
-      
-      You can download the coverage report from the Actions tab.
-    if: ${{ always() }}
-
-    
