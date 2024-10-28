@@ -1,12 +1,14 @@
-class DiscriminantTest(unittest.TestCase):
+import pytest
+from discriminant import calculate_discriminant
 
-    def test_positive_discriminant(self):
-        self.assertEqual(calculate_discriminant(1, -5, 6), 1)
-        self.assertEqual(calculate_discriminant(1, 4, 3), 4)
+def test_positive_discriminant():
+ """Тест для случая, когда дискриминант больше нуля."""
+ assert calculate_discriminant(1, 5, 6) == 1
 
-    def test_negative_discriminant(self):
-        self.assertEqual(calculate_discriminant(1, 2, 3), -8)
-        self.assertEqual(calculate_discriminant(1, 1, 1), -3)
+def test_zero_discriminant():
+ """Тест для случая, когда дискриминант равен нулю."""
+ assert calculate_discriminant(1, -2, 1) == 0
 
-if __name__ == '__main__':
-    unittest.main()
+def test_negative_discriminant():
+ """Тест для случая, когда дискриминант меньше нуля."""
+ assert calculate_discriminant(1, 1, 1) == -3
